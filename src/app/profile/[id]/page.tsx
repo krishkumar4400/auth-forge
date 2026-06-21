@@ -1,7 +1,6 @@
 "use client"
 
 import axios from "axios";
-import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
