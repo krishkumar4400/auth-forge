@@ -7,8 +7,7 @@ import { JWT_SECRET } from "@/helpers/env";
 import { UserPayload } from "@/types/auth";
 import { cookies } from "next/headers";
 import { NextResponse, NextRequest } from "next/server";
-
-
+import sendEmail from "@/helpers/mailer";
 
 
 if (!JWT_SECRET) {
@@ -64,7 +63,6 @@ export async function POST(req: NextRequest) {
             expiresIn: '7d'
         });
 
-
         cookieStore.set({
             name: 'token',
             value: token,
@@ -75,6 +73,8 @@ export async function POST(req: NextRequest) {
             path: "/"
         });
 
+        // send verification email
+        sendEmail({ email, mailType: "VERIFY", userId: user._id.toString() });
 
         return NextResponse.json({
             message: "User registered successfully",
