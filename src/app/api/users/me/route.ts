@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
     try {
         const userId = await getData(request);
-        const user = await userModel.findById(userId);
+        const user = await userModel.findById(userId).select("-password -verifyToken -verifyTokenExpiry -forgotPasswordToken -forgotPasswordTokenExpiry");
         if (!user) {
             return NextResponse.json({
                 message: "User doesn't exists",
@@ -22,7 +22,10 @@ export async function GET(request: NextRequest) {
                 user
             },
             success: true
-        })
+        }, {
+            status: 200
+        });
+        
     } catch (error: any) {
 
         if (error.message === "UNAUTHORIZED") {
