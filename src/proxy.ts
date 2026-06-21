@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "./helpers/env";
-import { CustomJwtPayload } from "./types/auth";
 
 export function proxy(
     request: NextRequest
 ) {
 
     const path = request.nextUrl.pathname;
-    const isPublicPath = path === '/login' || path === '/signup';
+    const isPublicPath = path === '/login' || path === '/signup' || path === 'verify-email';
 
     const token =
         request.cookies.get("token")?.value || '';
