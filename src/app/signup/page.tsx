@@ -1,24 +1,33 @@
 "use client"
 import Link from "next/link";
-import { useState, useEffect, SubmitEventHandler } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from 'axios';
-
+import toast from "react-hot-toast";
 
 const page = () => {
+    const router = useRouter();
     const [user, setUser] = useState({
         username: "",
         email: "",
         password: ""
     });
 
-    const onSignup = async () => {
-        console.log(user);
+    const onSignup = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault();
         try {
             const { data } = await axios.post('/api/users/signup', user);
-            console.log(data);
-        } catch (error) {
+            console.log("response = ", data);
+            if (data.success) {
+                toast.success(data.message);
+                router.push('/profile');
+            } else {
+                toast.error(data.message);
+            }
+
+        } catch (error: any) {
             console.log(error);
+            toast.error(error.response?.data.message);
         }
     }
 
