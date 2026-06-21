@@ -5,11 +5,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 
 
-const page = ({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) => {
+const page = () => {
   const [user, setUser] = useState<any>(null);
 
   const getUserData = async () => {
